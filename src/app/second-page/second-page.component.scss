@@ -1,0 +1,13 @@
+.second-page {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index:0;
+  overflow: auto; 
+  pointer-events: none;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
