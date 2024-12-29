@@ -2,14 +2,16 @@
   width: 100%;
   background: linear-gradient(180deg, rgb(2, 0, 36), rgb(10, 10, 85), #0c0129);
   &__section {
-    width: 100%;
+    width: 80%;
     height: 100vh;
     display: flex;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     color: #fff;
     overflow: hidden;
+    text-align: center;
     h1 {
       font-size: 30px;
     }

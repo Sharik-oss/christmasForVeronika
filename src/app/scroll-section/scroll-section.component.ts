@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
@@ -57,9 +57,14 @@ const variants = [
   styleUrls: ['./scroll-section.component.scss'],
 })
 export class ScrollSectionComponent implements AfterViewInit {
-  constructor() {}
+  constructor() { }
+
+
 
   ngAfterViewInit(): void {
+    gsap.config({
+      nullTargetWarn: false, // Silences warnings for invalid targets
+    });
     gsap.registerPlugin(ScrollTrigger);
 
     // Select all sections with `h1` elements
@@ -68,8 +73,10 @@ export class ScrollSectionComponent implements AfterViewInit {
     sections.forEach((section, index) => {
       const h1 = section.querySelector('h1');
       const img = section.querySelector('img');
-      const { from, to } = variants[index];
-      if (h1) {
+      const { from, to } = variants[index] || { from: {}, to: {} };
+      if (!h1 && !img) {
+        console.warn(`Section ${index} has no h1 or img elements.`);
+      } else if (h1) {
         gsap.fromTo(h1, from, {
           ...to,
           scrollTrigger: {
@@ -92,4 +99,7 @@ export class ScrollSectionComponent implements AfterViewInit {
       }
     });
   }
+
+
+
 }

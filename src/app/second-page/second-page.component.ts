@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostListener,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import {
@@ -23,7 +24,7 @@ import { texture } from '../second-page.contant';
   templateUrl: './second-page.component.html',
   styleUrl: './second-page.component.scss',
 })
-export class SecondPageComponent implements AfterViewInit {
+export class SecondPageComponent implements AfterViewInit, OnInit {
   @ViewChild('secondpage', { static: true })
   canvasElement?: ElementRef<HTMLCanvasElement>;
   private app = new Application();
@@ -55,10 +56,15 @@ export class SecondPageComponent implements AfterViewInit {
     },
   };
   snowflakes: any = [];
-  constructor() {}
+  constructor() { }
 
   ngAfterViewInit(): void {
     this.initPixi();
+    this.playSong()
+
+  }
+
+  ngOnInit(): void {
   }
 
   async initPixi() {
@@ -86,20 +92,20 @@ export class SecondPageComponent implements AfterViewInit {
     for (let i = 0; i < this.config.snowflakes.count; i++) {
       const size =
         Math.random() *
-          (this.config.snowflakes.properties.maxSize -
-            this.config.snowflakes.properties.minSize) +
+        (this.config.snowflakes.properties.maxSize -
+          this.config.snowflakes.properties.minSize) +
         this.config.snowflakes.properties.minSize;
 
       const speed =
         Math.random() *
-          (this.config.snowflakes.properties.speedRange[1] -
-            this.config.snowflakes.properties.speedRange[0]) +
+        (this.config.snowflakes.properties.speedRange[1] -
+          this.config.snowflakes.properties.speedRange[0]) +
         this.config.snowflakes.properties.speedRange[0];
 
       const opacity =
         Math.random() *
-          (this.config.snowflakes.properties.opacityRange[1] -
-            this.config.snowflakes.properties.opacityRange[0]) +
+        (this.config.snowflakes.properties.opacityRange[1] -
+          this.config.snowflakes.properties.opacityRange[0]) +
         this.config.snowflakes.properties.opacityRange[0];
 
       const snowflake: any = new Graphics();
@@ -122,7 +128,7 @@ export class SecondPageComponent implements AfterViewInit {
       snowflake['speed'] = speed;
       snowflake['wind'] =
         Math.random() *
-          (this.config.animation.wind.max - this.config.animation.wind.min) +
+        (this.config.animation.wind.max - this.config.animation.wind.min) +
         this.config.animation.wind.min;
 
       this.snowflakes.push(snowflake);
@@ -146,5 +152,25 @@ export class SecondPageComponent implements AfterViewInit {
         snowflake.x = this.app.canvas.width;
       }
     });
+  }
+
+
+  playSong() {
+    const firstSong = new Audio();
+    firstSong.src = 'ABBA - Happy New Year (Video).mp3';
+    firstSong.loop = true;
+    firstSong.muted = true; // Start muted
+  
+    firstSong.load();
+    firstSong.play()
+      .then(() => {
+        // Automatically unmute after a delay (e.g., 2 seconds)
+        setTimeout(() => {
+          firstSong.muted = false;
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error('Autoplay failed:', error);
+      });
   }
 }
